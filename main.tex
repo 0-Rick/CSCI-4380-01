@@ -1,0 +1,148 @@
+\documentclass[11pt]{article}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{upquote,textcomp}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.3cm plus4mm minus3mm}
+
+\oddsidemargin = 0.2in
+\textwidth = 6.5 in
+\textheight = 9.8 in
+\headsep = -1in
+
+\lstset{frame=tb,
+  language=,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  keepspaces=true,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{black},
+  keywordstyle=\color{black},
+  commentstyle=\color{black},
+  stringstyle=\color{black},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+% ========== Title ==========
+\title{Database Systems, CSCI 4380-01 \\
+\textbf{Homework \# 1 Extra Credit} \\
+Due Tuesday, February 3, 2026 at 7:59:59 PM EDT}
+\date{}
+\begin{document}
+\maketitle
+\vspace*{-0.7in}
+
+% ========== Question ==========
+\noindent\rule{\linewidth}{2pt}
+{\bf Question 3 [30 points].}
+For the following relations, find and list all the keys.
+\begin{enumerate}
+    \item
+      $R1(A,B,C,D,E,F,G)$, ${\cal F} = \{ BDG\rightarrow FG, AF\rightarrow DE,  EF\rightarrow A\}$
+\end{enumerate}
+\vspace{-2em}
+\noindent\rule{\linewidth}{2pt}
+% ========== Solution ==========
+
+\noindent\textbf{Solution}
+
+\vspace{-2.2em}
+\noindent
+\begin{itemize}
+    \item
+    To start, ensuring that the fd (functional dependency) is in it's minimal basis makes it significantly easier to find the candidate keys. The four rules for transforming a fd into a minimal basis are as follows:
+    \vspace{-.4em}\begin{enumerate} [a)]
+        \item Convert all fd's RHS (right-hand side) to a single attribute).
+        \item Remove trivial functional dependencies ($A\rightarrow A$).
+        \item No redundant dependencies;
+        \\ No extraneous attributes on the LHS (left-hand side).     
+    \end{enumerate}
+    \item [(a)] Single attribute RHS:
+        \vspace{.2em}
+        \\\hspace*{4.8em}\underline{Previous}\hspace{5.6em}\underline{After}
+        
+        \vspace{-1em}
+        \begin{itemize}
+            \item[$\rightharpoonup$] 
+            $\cal F$ $=\{BDG\rightarrow FG$ \hspace*{1em}$\Rightarrow$\hspace*{1em} $BDG\rightarrow F, BDG\rightarrow G$
+            \\\hspace*{2.6em}$AF\rightarrow DE$
+            \hspace*{1.8em}$\Rightarrow$\hspace*{1em} $AF\rightarrow D, AF\rightarrow E$
+            \\\hspace*{2.6em}$EF\rightarrow A$
+            \hspace*{2.6em}$\Rightarrow$\hspace*{1em} $EF\rightarrow A$ \hspace*{7em}\textit{(unchanged)}
+            
+            \vspace{.2em}
+            \item[$\rightharpoonup$] 
+            New Functional Dependency:
+            \\$\Rightarrow\cal F$ $=\{BDG\rightarrow F,BDG\rightarrow G, AF\rightarrow D, AF\rightarrow E, EF\rightarrow A\}$
+        \end{itemize}
+    \item[(b)] Removing trivial fds:
+        \begin{itemize}
+            \item[$\rightharpoonup$]
+            $\cal F$ $=\{BDG\rightarrow F,BDG\rightarrow G, AF\rightarrow D, AF\rightarrow E, EF\rightarrow A\}$
+            \vspace{-.4em}
+            \\\hspace*{7.6em} $+++++$
+            \\\hspace*{7.2em} (\textit{$G$ is trivial})
+            
+            \vspace{.2em}
+            \item[$\rightharpoonup$] 
+            New Functional Dependency:
+            \\$\Rightarrow\cal F$ $=\{BDG\rightarrow F, AF\rightarrow D, AF\rightarrow E, EF\rightarrow A\}$
+            
+        \end{itemize}
+    \item[(c)] Removing redundant and extraneous attributes:
+        \begin{itemize}
+            \item[$\rightharpoonup$]
+            $\cal F$ $=\{BDG\rightarrow F, AF\rightarrow D, AF\rightarrow E,  EF\rightarrow A\}$
+            
+            \item[$\rightharpoonup$]
+            There is a shortcut we can take here. Each RHS attribute is produced by exactly one fd, so none can be redundant. (In other words, removing one of the LHS attributes in a fd or removing an entire fd will make the RHS attribute inaccessible.)
+        \end{itemize}
+
+    \newpage
+    \item 
+    Finding the keys using a minimal basis(s):
+        \vspace{-.4em}
+            \begin{enumerate} [a)]
+                \item Find all unreachable attributes on the RHS side (cannot be derived).
+
+                \item Discarding unreachable attributes, start with the fds with the least number of attributes on the LHS to see if all attributes are reachable. 
+                \\ Once all attributes are reachable, check all other LHS fds with the same number of attributes can do the same (checking for other candidate keys).
+            \end{enumerate}
+            
+    \item[(a)]
+    Inaccessible Attributes: B,C,G (\textit{must appear in all candidate keys})
+    
+    \item[(b)] 
+    Minimal Basis: $\cal F$ $=\{BDG\rightarrow F, AF\rightarrow D, AF\rightarrow E,  EF\rightarrow A\}$
+    \\ Start by trying all fds with the least number of LHS attributes -- one attribute in this case.
+    \begin{itemize}
+        \item[$\rightharpoonup$] 
+            Add one attribute. For the one case below, we only need to add $D$.
+            \vspace{.2em}
+            \\ $BDG\rightarrow F$
+            \\\hspace*{2em} $BCG,D+=\{B,C,D,G,F\}$  (\textit{A and E unreachable})
+            
+        \vspace{.4em}
+        \item[$\rightharpoonup$] 
+            Add two attributes. There are no other LHS fds that require only  one attribute. 
+            \vspace{.2em}
+            \\ $AF\rightarrow D, AF\rightarrow E$
+            \\\hspace*{2em} $BCG,AF+=\{A,B,C,D,E,F\}$  \textbf{(candidate key is found!)}
+            \vspace{.2em}
+            \\ $EF\rightarrow A$
+            \\\hspace*{2em} $BCG,EF+=\{A,B,C,E,F,G\}$  (\textit{D unreachable})
+    \end{itemize}
+    
+    \item \textbf{Answer: Our key is $\{A,B,C,E,F,G\}$.}
+    
+    
+\end{itemize}
+
+\end{document}
